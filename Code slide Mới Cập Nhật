@@ -1,0 +1,201 @@
+<div class="container" style="border-radius:12px; padding:15px; margin:20px 0;">
+    <div class="ml-title" style="padding:0 15px 15px;">
+        <h2 style="color:#fff; font-size:20px; margin:0;">Mới Cập Nhật</h2>
+    </div>
+
+    <div class="swiper-container">
+        <div id="recent-update-list" class="swiper-wrapper"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</div>
+<!-- CSS -->
+<style>.container {
+    
+    border-radius: 12px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.ml-title {
+    padding: 0 15px 15px;
+}
+
+.ml-title h2 {
+    color: #fff;
+    font-size: 20px;
+    margin: 0;
+}
+
+.swiper-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.thumbnail-container {
+    position: relative;
+    width: 162px;
+    height: 211px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #ccc;
+}
+
+.thumbnail-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Góc trên trái - Rating */
+.info-top-left {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 5px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+/* Góc dưới trái - Tập phim */
+.info-bottom-left {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 5px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+/* Góc dưới phải - Thể loại */
+.info-bottom-right {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 5px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+/* Tiêu đề bài viết dưới ảnh */
+.post-title {
+    margin-top: 10px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    width: 100%;
+}
+</style>
+
+---------------------
+
+    <!-- Trinhedit -->   
+<!-- Swiper JS -->
+<script src='https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js'/>
+<link href='https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css' rel='stylesheet'/>
+<script>
+function recentupdate(data) {
+    let entries = data.feed.entry || [];
+    let html = &quot;&quot;;
+
+    entries.forEach(entry =&gt; {
+        let title = entry.title.$t;
+        let link = entry.link.find(l =&gt; l.rel === &quot;alternate&quot;).href;
+        
+        // Mặc định giá trị
+        let rating = &quot;N/A&quot;;
+        let episode = &quot;Ep ?&quot;;
+        let type = &quot;&quot;; // Ban đầu để rỗng, nếu không hợp lệ thì không hiển thị
+        let img = &quot;https://via.placeholder.com/162x211&quot;; // Ảnh mặc định (162x211px)
+
+        // Lấy ảnh từ thumbnail hoặc featured image
+        if (entry.media$thumbnail) {
+            img = entry.media$thumbnail.url.replace(&quot;s72-c&quot;, &quot;s162&quot;);
+        } else if (entry.content.$t.includes(&quot;img&quot;)) {
+            let tempDiv = document.createElement(&quot;div&quot;);
+            tempDiv.innerHTML = entry.content.$t;
+            let imgTag = tempDiv.querySelector(&quot;img&quot;);
+            if (imgTag) img = imgTag.src;
+        }
+
+        // Lấy thông tin từ label (categories)
+        let categories = entry.category ? entry.category.map(cat =&gt; cat.term) : [];
+        let validTypes = [&quot;TV&quot;, &quot;Movie&quot;, &quot;OVA&quot;, &quot;ONA&quot;, &quot;Special&quot;]; // Danh sách hợp lệ
+
+        categories.forEach(cat =&gt; {
+            if (cat.match(/^\d+(\.\d+)?$/)) {
+                rating = cat; // Rating dạng số (6.2, 8.5,...)
+            } else if (cat.toLowerCase().includes(&quot;ep&quot;)) {
+                episode = cat; // Số tập (Ep 9/10)
+            } else if (validTypes.includes(cat)) {
+                type = cat; // Chỉ lấy type hợp lệ
+            }
+        });
+
+        html += `
+            <div class='swiper-slide'>
+                <a class='block ofc relative poster r3 oh' href='${link}'>
+                    <div class='thumbnail-container'>
+                        <img alt='${title}' loading='lazy' src='${img}'/>
+                        
+                        <!-- Góc trên trái: Rating -->
+                        <div class='info-top-left'>${rating}</div>
+
+                        <!-- Góc dưới trái: Episode -->
+                        <div class='info-bottom-left'>${episode}</div>
+
+                        <!-- Góc dưới phải: Type (chỉ hiển thị nếu hợp lệ) -->
+                        ${type ? `<div class='info-bottom-right'>${type}</div>` : &quot;&quot;}
+                    </div>
+
+                    <!-- Tiêu đề căn giữa phía dưới ảnh -->
+                    <div class='post-title'>${title}</div>
+                </a>
+            </div>
+        `;
+    });
+
+    document.getElementById(&quot;recent-update-list&quot;).innerHTML = html;
+
+    // Khởi tạo Swiper
+    new Swiper(&#39;.swiper-container&#39;, {
+        slidesPerView: &quot;auto&quot;,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: &quot;.swiper-button-next&quot;,
+            prevEl: &quot;.swiper-button-prev&quot;,
+        },
+        breakpoints: {
+    320: { slidesPerView: 2, spaceBetween: 8 },   // Điện thoại nhỏ
+    480: { slidesPerView: 3, spaceBetween: 10 },  // Điện thoại lớn
+    768: { slidesPerView: 5, spaceBetween: 12 },  // Tablet
+    1024: { slidesPerView: 6, spaceBetween: 15 }, // Laptop nhỏ
+    1280: { slidesPerView: 7, spaceBetween: 18 }  // Màn hình lớn
+}
+    });
+}
+
+// Gọi API JSON-P từ Blogspot
+const script = document.createElement(&quot;script&quot;);
+script.src = &quot;https://www.animet.fun/feeds/posts/default/?orderby=updated&amp;max-results=10&amp;alt=json-in-script&amp;callback=recentupdate&quot;;
+document.body.appendChild(script);
+</script>
+
+Thay https://www.animet.fun/ = bằng URL thực của blog bạn.
