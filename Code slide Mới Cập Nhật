@@ -1,201 +1,256 @@
-<div class="container" style="border-radius:12px; padding:15px; margin:20px 0;">
-    <div class="ml-title" style="padding:0 15px 15px;">
-        <h2 style="color:#fff; font-size:20px; margin:0;">Mới Cập Nhật</h2>
-    </div>
-
-    <div class="swiper-container">
-        <div id="recent-update-list" class="swiper-wrapper"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
-</div>
-<!-- CSS -->
-<style>.container {
-    
-    border-radius: 12px;
-    padding: 15px;
-    margin: 20px 0;
-}
-
-.ml-title {
-    padding: 0 15px 15px;
-}
-
-.ml-title h2 {
-    color: #fff;
-    font-size: 20px;
-    margin: 0;
-}
-
-.swiper-container {
-    width: 100%;
-    overflow: hidden;
-}
-
-.swiper-slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.thumbnail-container {
-    position: relative;
-    width: 162px;
-    height: 211px;
-    overflow: hidden;
-    border-radius: 8px;
-    background: #ccc;
-}
-
-.thumbnail-container img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Góc trên trái - Rating */
-.info-top-left {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 5px;
-    font-size: 13px;
-    border-radius: 5px;
-}
-
-/* Góc dưới trái - Tập phim */
-.info-bottom-left {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 5px;
-    font-size: 13px;
-    border-radius: 5px;
-}
-
-/* Góc dưới phải - Thể loại */
-.info-bottom-right {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 5px;
-    font-size: 13px;
-    border-radius: 5px;
-}
-
-/* Tiêu đề bài viết dưới ảnh */
-.post-title {
-    margin-top: 10px;
-    text-align: center;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    width: 100%;
-}
-</style>
-
----------------------
-
-    <!-- Trinhedit -->   
+    <!-- Thêm sau <head>  -->   
 <!-- Swiper JS -->
 <script src='https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js'/>
 <link href='https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css' rel='stylesheet'/>
+
+-----
+<!-- Thêm vào Slide HTML/JavaScript  --> 
+
+<section class="recentupdate-section" aria-label="Mới cập nhật Anime">
+  <h2 class="section-title">Mới Cập Nhật</h2>
+  <div class="swiper recentupdate-slider">
+    <div class="swiper-wrapper" id="recentupdate-list">
+      <!-- Skeleton load trước -->
+      <div class="swiper-slide skeleton"></div>
+      <div class="swiper-slide skeleton"></div>
+      <div class="swiper-slide skeleton"></div>
+      <div class="swiper-slide skeleton"></div>
+      <div class="swiper-slide skeleton"></div>
+      <div class="swiper-slide skeleton"></div>
+    </div>
+    <div class="swiper-button-next" aria-label="Tiếp theo"></div>
+    <div class="swiper-button-prev" aria-label="Trước đó"></div>
+    <br /><br />
+    <div class="swiper-pagination" aria-label="Điều hướng"></div>
+  </div>
+</section>
+
+<style>
+/* ===== Khung chính ===== */
+.recentupdate-section {
+  margin: 1rem auto;
+  max-width: 1200px;
+  padding: 0 10px;
+}
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 .5rem;
+}
+.section-title::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: #e84836;
+  margin-top: .25rem;
+}
+
+/* ===== Swiper & Card ===== */
+.recentupdate-slider {
+  position: relative;
+}
+.swiper-slide {
+  width: clamp(140px, 20vw, 220px); /* co giãn theo màn hình */
+  background: #1c1c1c;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0,0,0,.35);
+  transition: transform .3s;
+}
+.swiper-slide:hover {
+  transform: translateY(-4px);
+}
+
+/* ===== Skeleton ===== */
+.skeleton {
+  aspect-ratio: 2/3;
+  background: linear-gradient(90deg,#2c2c2c 25%,#3a3a3a 50%,#2c2c2c 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0% {background-position: 200% 0;}
+  100% {background-position: -200% 0;}
+}
+
+/* ===== Ảnh & overlay ===== */
+.thumbnail-container {
+  position: relative;
+  aspect-ratio: 2/3;
+}
+.thumbnail-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.info-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.8), transparent);
+}
+
+/* ===== Tiêu đề anime ===== */
+.anime-title {
+  margin: .4rem;
+  text-align: center;
+  font-weight: 600;
+  color: #fff;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+  min-height: 2.6em;
+  cursor: help;
+}
+.anime-title:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,.85);
+  color: #fff;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: .8rem;
+  white-space: nowrap;
+}
+
+/* ===== Badge ===== */
+.badge {
+  position: absolute;
+  padding: .2rem .5rem;
+  font-size: .75rem;
+  font-weight: 600;
+  border-radius: 4px;
+  color: #fff;
+  background: rgba(0,0,0,.6);
+}
+.badge.rating { top:.4rem; left:.4rem; background:#dc3545; }
+.badge.episode { bottom:.4rem; left:.4rem; background:#e6ad00; }
+.badge.type { bottom:.4rem; right:.4rem; }
+.badge.type.TV { background:#0c00e6; }
+.badge.type.Movie { background:#000000; }
+.badge.type.OVA { background:#001c55; }
+.badge.type.ONA { background:#00034c; }
+.badge.type.Special { background:#d08d47; }
+
+/* ===== Swiper control ===== */
+.swiper-button-next, .swiper-button-prev { color:#e84836; }
+.swiper-pagination-bullet { background:#aaa; opacity:.5; }
+.swiper-pagination-bullet-active { background:#e84836; opacity:1; }
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .swiper-button-next, .swiper-button-prev {
+    display: none !important;
+  }
+}
+</style>
+
 <script>
-function recentupdate(data) {
-    let entries = data.feed.entry || [];
-    let html = &quot;&quot;;
+let swiperRU;
 
-    entries.forEach(entry =&gt; {
-        let title = entry.title.$t;
-        let link = entry.link.find(l =&gt; l.rel === &quot;alternate&quot;).href;
-        
-        // Mặc định giá trị
-        let rating = &quot;N/A&quot;;
-        let episode = &quot;Ep ?&quot;;
-        let type = &quot;&quot;; // Ban đầu để rỗng, nếu không hợp lệ thì không hiển thị
-        let img = &quot;https://via.placeholder.com/162x211&quot;; // Ảnh mặc định (162x211px)
-
-        // Lấy ảnh từ thumbnail hoặc featured image
-        if (entry.media$thumbnail) {
-            img = entry.media$thumbnail.url.replace(&quot;s72-c&quot;, &quot;s162&quot;);
-        } else if (entry.content.$t.includes(&quot;img&quot;)) {
-            let tempDiv = document.createElement(&quot;div&quot;);
-            tempDiv.innerHTML = entry.content.$t;
-            let imgTag = tempDiv.querySelector(&quot;img&quot;);
-            if (imgTag) img = imgTag.src;
-        }
-
-        // Lấy thông tin từ label (categories)
-        let categories = entry.category ? entry.category.map(cat =&gt; cat.term) : [];
-        let validTypes = [&quot;TV&quot;, &quot;Movie&quot;, &quot;OVA&quot;, &quot;ONA&quot;, &quot;Special&quot;]; // Danh sách hợp lệ
-
-        categories.forEach(cat =&gt; {
-            if (cat.match(/^\d+(\.\d+)?$/)) {
-                rating = cat; // Rating dạng số (6.2, 8.5,...)
-            } else if (cat.toLowerCase().includes(&quot;ep&quot;)) {
-                episode = cat; // Số tập (Ep 9/10)
-            } else if (validTypes.includes(cat)) {
-                type = cat; // Chỉ lấy type hợp lệ
-            }
-        });
-
-        html += `
-            <div class='swiper-slide'>
-                <a class='block ofc relative poster r3 oh' href='${link}'>
-                    <div class='thumbnail-container'>
-                        <img alt='${title}' loading='lazy' src='${img}'/>
-                        
-                        <!-- Góc trên trái: Rating -->
-                        <div class='info-top-left'>${rating}</div>
-
-                        <!-- Góc dưới trái: Episode -->
-                        <div class='info-bottom-left'>${episode}</div>
-
-                        <!-- Góc dưới phải: Type (chỉ hiển thị nếu hợp lệ) -->
-                        ${type ? `<div class='info-bottom-right'>${type}</div>` : &quot;&quot;}
-                    </div>
-
-                    <!-- Tiêu đề căn giữa phía dưới ảnh -->
-                    <div class='post-title'>${title}</div>
-                </a>
-            </div>
-        `;
+function initRecentupdateSlider(){
+  if(!swiperRU){
+    swiperRU=new Swiper(".recentupdate-slider",{
+      spaceBetween:12,
+      loop:true,
+      autoplay:{delay:4000,disableOnInteraction:false},
+      navigation:{nextEl:".swiper-button-next",prevEl:".swiper-button-prev"},
+      pagination:{el:".swiper-pagination",clickable:true},
+      breakpoints:{
+        320:{slidesPerView:2},
+        480:{slidesPerView:3},
+        768:{slidesPerView:4},
+        1024:{slidesPerView:5},
+        1280:{slidesPerView:6}
+      }
     });
-
-    document.getElementById(&quot;recent-update-list&quot;).innerHTML = html;
-
-    // Khởi tạo Swiper
-    new Swiper(&#39;.swiper-container&#39;, {
-        slidesPerView: &quot;auto&quot;,
-        spaceBetween: 10,
-        navigation: {
-            nextEl: &quot;.swiper-button-next&quot;,
-            prevEl: &quot;.swiper-button-prev&quot;,
-        },
-        breakpoints: {
-    320: { slidesPerView: 2, spaceBetween: 8 },   // Điện thoại nhỏ
-    480: { slidesPerView: 3, spaceBetween: 10 },  // Điện thoại lớn
-    768: { slidesPerView: 5, spaceBetween: 12 },  // Tablet
-    1024: { slidesPerView: 6, spaceBetween: 15 }, // Laptop nhỏ
-    1280: { slidesPerView: 7, spaceBetween: 18 }  // Màn hình lớn
-}
-    });
+  }else{
+    swiperRU.update();
+  }
 }
 
-// Gọi API JSON-P từ Blogspot
-const script = document.createElement(&quot;script&quot;);
-script.src = &quot;https://www.animet.fun/feeds/posts/default/?orderby=updated&amp;max-results=10&amp;alt=json-in-script&amp;callback=recentupdate&quot;;
-document.body.appendChild(script);
+function recentupdate(json){
+  const posts=json.feed.entry||[];
+  if(!posts.length){return;}
+
+  const validTypes=["TV","Movie","OVA","ONA","Special"];
+  const html=posts.slice(0,12).map(entry=>{
+    const title=entry.title.$t;
+    const link=entry.link.find(l=>l.rel=="alternate").href;
+    let img=entry.media$thumbnail?.url.replace("s72-c","w260-h360")||"https://via.placeholder.com/260x360";
+
+    if(!entry.media$thumbnail&&entry.content?.$t.includes("img")){
+      let div=document.createElement("div");
+      div.innerHTML=entry.content.$t;
+      let im=div.querySelector("img");
+      if(im) img=im.src;
+    }
+
+    let rating="N/A",episode="Ep ?",type="";
+    (entry.category||[]).forEach(c=>{
+      if(/^\d+(\.\d+)?$/.test(c.term)) rating=c.term;
+      else if(c.term.toLowerCase().includes("ep")) episode=c.term;
+      else if(validTypes.includes(c.term)) type=c.term;
+    });
+
+    const typeClass=validTypes.includes(type)?type:"";
+    return `
+    <div class="swiper-slide">
+      <a href="${link}" title="${title}">
+        <div class="thumbnail-container">
+          <img src="${img}" alt="${title}" loading="lazy" decoding="async"/>
+          <div class="info-overlay"></div>
+          <div class="badge rating">${rating}</div>
+          <div class="badge episode">${episode}</div>
+          ${type?`<div class="badge type ${typeClass}">${type}</div>`:""}
+        </div>
+        <div class="anime-title" title="${title}">${title}</div>
+      </a>
+    </div>`;
+  }).join("");
+
+  // ép Swiper sync lại slide + pagination
+  const temp=document.createElement("div");
+  temp.innerHTML=html;
+  const slides=Array.from(temp.children);
+
+  if(swiperRU){
+    swiperRU.removeAllSlides();
+    swiperRU.appendSlide(slides);
+    swiperRU.update();
+  }else{
+    initRecentupdateSlider();
+  }
+}
+
+if(typeof Swiper==="undefined"){
+  const css=document.createElement("link");
+  css.rel="stylesheet";
+  css.href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css";
+  document.head.appendChild(css);
+
+  const js=document.createElement("script");
+  js.src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js";
+  js.onload=()=>{
+    initRecentupdateSlider(); // chạy skeleton trước
+    loadRecentupdateFeed();   // rồi load dữ liệu thật
+  };
+  document.body.appendChild(js);
+}else{
+  initRecentupdateSlider();
+  loadRecentupdateFeed();
+}
+
+function loadRecentupdateFeed(){
+  const s=document.createElement("script");
+  s.src="/feeds/posts/default/?orderby=updated&max-results=12&alt=json-in-script&callback=recentupdate";
+  document.body.appendChild(s);
+}
 </script>
-
-Thay https://www.animet.fun/ = bằng URL thực của blog bạn.
