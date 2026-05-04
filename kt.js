@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.head.appendChild(style);
 
     // 3. Cấu hình thông tin hiển thị 
-    var targetUrl = "LINK_TRANG_DICH_CUA_BAN"; 
-    var imageUrl = "LINK_HINH_ANH_CUA_BAN";
+    var targetUrl = "https://s.shopee.vn/4VJb58jLIX"; 
+    var imageUrl = "https://kenh14cdn.com/thumb_w/1200/2018/12/5/photo-4-15439785647641056293963-crop-15439788580862065231401.jpg";
 
     // 4. Tạo khối hiển thị và chèn đè lên trên iframe
     var introBox = document.createElement('div');
